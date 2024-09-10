@@ -6,17 +6,17 @@ using System.Threading.Tasks;
 
 namespace Bank_of_Habib
 {
-    internal class Bank
+    internal class User
     {
         public string Name { get; }
-        public int Id { get; }
-        public int Commission { get; }
+        public string Login { get; }
+        public string Password { get; }
 
-        public Bank(string name, int id, int comiss) 
+        public User(string name, string login, string pswd)
         {
             Name = name;
-            Id = id;
-            Commission = comiss;
+            Login = login;
+            Password = pswd;
         }
     }
 }
