@@ -8,7 +8,8 @@ namespace Bank_of_Habib
 {
     internal class DataBaseMock
     {
-        public List<Bank> Banks {  get; set; } = new List<Bank>();
+        public List<Bank> Banks { get; } = new List<Bank>();
+        public List<User> Users { get; } = new List<User>();
 
         public DataBaseMock() 
         {
@@ -18,8 +19,11 @@ namespace Bank_of_Habib
 
             for (int i = 0; i < bankNames.Count; i++)
             {
-                Banks.Add(new Bank(bankNames[i], i + 1, random.Next(0, 20)));
-            }            
+                Banks.Add(new Bank(bankNames[i], i + 1, random.Next(0, 5)));
+            }
+            
+            var userCount = random.Next(5, 10);
+            List<>
         }
     }
 }

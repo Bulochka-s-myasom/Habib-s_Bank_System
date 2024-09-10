@@ -33,5 +33,15 @@ namespace Bank_of_Habib
             }
             return names;
         }
+
+        internal static void GenerateUserName(int n)
+        {
+            string[] firtsNames = { "Владимир", "Сергей", "Михаил", "Кирилл", "Дмитрий", "Хабибула"};
+            string[] secondNames = { "Акопов", "Любимов", "Манкевич", "Новиков", "Обрубов", "Темури"};
+            Random random = new Random();
+            int indexFirst = random.Next(firstNames.Length);
+            int indexSecond = random.Next(secondNames.Length);
+            string name = 
+        }
     }
 }
