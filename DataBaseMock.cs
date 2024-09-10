@@ -14,13 +14,9 @@ namespace Bank_of_Habib
         public DataBaseMock() 
         {
             Random random = new Random();
-            var banksCount = random.Next(3, 7);
-            List<string> bankNames = RandomGenerators.GenerateBanksName(banksCount);
 
-            for (int i = 0; i < bankNames.Count; i++)
-            {
-                Banks.Add(new Bank(bankNames[i], i + 1, random.Next(0, 5)));
-            }
+            var banksCount = random.Next(3, 7);
+            Banks = RandomGenerators.GenerateBanks(banksCount);            
             
             var userCount = random.Next(5, 10);
             Users = RandomGenerators.GenerateUsers(userCount); 

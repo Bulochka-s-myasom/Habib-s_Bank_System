@@ -8,12 +8,12 @@ namespace Bank_of_Habib
 {
     internal static class RandomGenerators 
     {
-        internal static List<string> GenerateBanksName(int n)
+        internal static List<Bank> GenerateBanks(int n)
         {
             string[] first = { "Swift", "Silent", "Mighty", "Brave", "Wild" };
             string[] second = { "Falcon", "Lion", "Tiger", "Eagle", "Wolf" };
-
             List<string> names = new List<string>();
+            List<Bank> banks = new List<Bank>();
 
             Random random = new Random();
 
@@ -30,9 +30,10 @@ namespace Bank_of_Habib
                     name = $"{first[indexFirst]} {second[indexSecond]}";
                 }
 
-                names.Add(name);                 
+                names.Add(name);
+                banks.Add(new Bank(name, i + 1, random.Next(0, 5)));
             }
-            return names;
+            return banks;
         }
 
         internal static List<User> GenerateUsers(int n)
