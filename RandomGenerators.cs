@@ -67,18 +67,25 @@ namespace Bank_of_Habib
         }
 
         internal static List<Bill> GenerateBills(List<User> users)
-        {
-            List<User> users1 = users;
+        {            
             List<Bill> bills = new List<Bill>();
+            List<string> logins = new List<string>();
             Random random = new Random();
-            random.Next(users1.Count);
+            int countBills = random.Next(1, users.Count);
 
-            for (int i = 0; i > ; i++)
+            for (int i = 0; i < countBills; i++)
             {
-                random.Next(1, users1.Count);
-                int n = random.Next(1, users1.Count);
-                bills.Add(new Bill(2, users1[n].Login, (decimal)random.Next(300, 1000)));
-                users1.Remove(users1[n]);
+                int target = random.Next(0, users.Count - 1);
+
+                while (logins.Contains(users[target].Login))
+                {
+                    target = random.Next(0, users.Count - 1);                    
+                }
+
+                logins.Add(users[target].Login);
+                decimal value = random.Next(100, 1000);
+                Bill targetBill = new Bill(i + 1, users[target].Login, value);
+                bills.Add(targetBill);                
             }
             return bills;
         }

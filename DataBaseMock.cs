@@ -10,7 +10,7 @@ namespace Bank_of_Habib
     {
         public List<Bank> Banks { get; } = new List<Bank>();
         public List<User> Users { get; } = new List<User>();
-        public Dictionary<int, Bill> Bills { get; } = new Dictionary<int, Bill>();
+        
 
         public DataBaseMock()
         {

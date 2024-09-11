@@ -18,6 +18,14 @@ namespace Bank_of_Khabib
                 {
                     Console.WriteLine($"Банк ID: {dataBaseMock.Banks[i].Id} Название: {dataBaseMock.Banks[i].Name}" +
                         $" Комиссия: {dataBaseMock.Banks[i].Commission}%");
+
+                    for (int j = 0; j < dataBaseMock.Banks[i]._bills.Count; j++)
+                    {
+                        Console.WriteLine($"ID счёта: {dataBaseMock.Banks[i]._bills[j].ID} Login: {dataBaseMock.Banks[i]._bills[j].Login}" +
+                        $" На счету: {dataBaseMock.Banks[i]._bills[j].Value}");
+                    }
+
+                    Console.WriteLine();
                 }               
 
                 Console.WriteLine();

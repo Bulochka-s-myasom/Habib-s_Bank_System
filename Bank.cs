@@ -11,7 +11,7 @@ namespace Bank_of_Habib
         public string Name { get; }
         public int Id { get; }        
         public int Commission { get; }
-        private List<Bill> _bills { get; } = new List<Bill>();
+        public List<Bill> _bills { get; } = new List<Bill>();
 
         public Bank(string name, int id, int comiss, List<Bill> bills) 
         {
