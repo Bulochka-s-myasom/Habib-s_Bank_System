@@ -10,16 +10,16 @@ namespace Bank_of_Habib
     {
         public List<Bank> Banks { get; } = new List<Bank>();
         public List<User> Users { get; } = new List<User>();
+        public Dictionary<int, Bill> Bills { get; } = new Dictionary<int, Bill>();
 
-        public DataBaseMock() 
+        public DataBaseMock()
         {
             Random random = new Random();
 
-            var banksCount = random.Next(3, 7);
-            Banks = RandomGenerators.GenerateBanks(banksCount);            
-            
             var userCount = random.Next(5, 10);
-            Users = RandomGenerators.GenerateUsers(userCount); 
+            Users = RandomGenerators.GenerateUsers(userCount);
+            var banksCount = random.Next(3, 7);
+            Banks = RandomGenerators.GenerateBanks(Users, banksCount);
         }
     }
 }
