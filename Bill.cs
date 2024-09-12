@@ -8,9 +8,9 @@ namespace Bank_of_Habib
 {
     internal class Bill
     {
-        public int ID { get; set; }
-        public string Login { get; set; }
-        public decimal Value { get; set; }
+        public int ID { get; private set; }
+        public string Login { get; private set; }
+        public decimal Value { get; private set; }
         public Bank? Bank { get; private set; }
 
         public Bill(int n, string login, decimal value)

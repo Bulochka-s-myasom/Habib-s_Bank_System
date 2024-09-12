@@ -20,7 +20,10 @@ namespace Bank_of_Habib
             Commission = comiss;
             _bills = bills;
 
-            _bills.ForEach(b => b.Register(this));
+            foreach (Bill bill in _bills)
+            {
+                bill.Register(this);
+            }
         }
 
         public IEnumerable <Bill> GetBills(User user) 
