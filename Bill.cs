@@ -8,14 +8,14 @@ namespace Bank_of_Habib
 {
     internal class Bill
     {
-        public int ID { get; private set; }
+        public int Id { get; private set; }
         public string Login { get; private set; }
         public decimal Value { get; private set; }
         public Bank? Bank { get; private set; }
 
-        public Bill(int n, string login, decimal value)
+        public Bill(int id, string login, decimal value)
         {
-            ID = n;
+            Id = id;
             Login = login;
             Value = value;
         }
@@ -27,7 +27,7 @@ namespace Bank_of_Habib
 
         public override string ToString()
         {
-            return $"Login: {Login}; ID: {ID}; Bank: {Bank.Name}; Value: {Value}";
+            return $"Login: {Login}; ID: {Id}; Bank: {Bank.Name}; Value: {Value}";
         }
     }
 }

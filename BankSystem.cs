@@ -1,6 +1,6 @@
 ﻿namespace Bank_of_Habib
 {
-    internal static class StartUp
+    internal static class BankSystem
     {
         internal static DataBaseMock DataBaseMock { get; private set; }
         internal static User? CurrentUser { get; private set; }
@@ -21,13 +21,13 @@
 
                 Console.WriteLine();
                 Console.Write("Введите логин или 1 для выхода: ");
-                string login = Console.ReadLine();
-                string pass;
+                var login = Console.ReadLine();
+                string? pass;
                 if (login == "1")
                 {
                     checkLogin = true;
                     Console.WriteLine("Всего хорошего");
-                    return;
+                    break;
                 }
                 else
                 {
@@ -59,7 +59,7 @@
                     bool exit = true;
                     while (exit)
                     {
-                        Console.WriteLine("Выбери 1.Проверить счета 2. 3.Сменить пользователя 4.Выход");
+                        Console.WriteLine("Выбери 1.Проверить счета 2.Операции со счётом 3.Сменить пользователя 4.Выход");
                         if (int.TryParse(Console.ReadLine(), out int imput))
                         {
                             switch (imput)
@@ -69,7 +69,7 @@
                                     Console.WriteLine($"Все счета:");
                                     Console.WriteLine($"{string.Join('\n', bills)}");
                                     break;
-                                case 2: Console.WriteLine("т"); break;
+                                case 2: BillOperation(); break;
                                 case 3:
                                     Console.WriteLine("Всего хорошего");
                                     exit = false;
@@ -106,6 +106,43 @@
         //{
         //    Console.WriteLine("такого нет");
         //}
+
+        private static void BillOperation()
+        {
+            bool exit = true;
+            while (exit)
+            {
+                Console.WriteLine("Выбери 1.Проверить счета 2. 3.Перевести 4.Назад");
+                if (int.TryParse(Console.ReadLine(), out int imput))
+                {
+                    switch (imput)
+                    {
+                        case 1:
+                            var bills = DataBaseMock.Banks.SelectMany(b => b.GetBills(CurrentUser));
+                            Console.WriteLine($"Все счета:");
+                            Console.WriteLine($"{string.Join('\n', bills)}");
+                            break;
+                        case 2: 
+                            Console.WriteLine("Когда нибудь тут будет реализация"); 
+                            break;
+                        case 3:
+                            Console.WriteLine("Когда нибудь тут тоже будет реализация");
+                            break;
+                            
+                        case 4:
+                            Console.WriteLine();
+                            exit = false;
+                            break;
+                        default: Console.WriteLine("выбери из четырёх цифр"); break;
+                    }
+
+                }
+                else
+                {
+                    Console.WriteLine("выбери из четырёх цифр");
+                }
+            }
+        }
 
 
     }
