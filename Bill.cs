@@ -29,5 +29,11 @@ namespace Bank_of_Habib
         {
             return $"Login: {Login}; ID: {Id}; Bank: {Bank.Name}; Value: {Value}";
         }
+
+        public void SetBill(decimal money)
+        {
+            Value += money;
+            Console.WriteLine($"Счёт пополнен: {Value}");
+        }
     }
 }

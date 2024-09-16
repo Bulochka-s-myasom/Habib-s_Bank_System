@@ -112,7 +112,7 @@
             bool exit = true;
             while (exit)
             {
-                Console.WriteLine("Выбери 1.Проверить счета 2. 3.Перевести 4.Назад");
+                Console.WriteLine("Выбери 1.Проверить счета 2.Пополнить 3.Перевести 4.Назад");
                 if (int.TryParse(Console.ReadLine(), out int imput))
                 {
                     switch (imput)
@@ -122,13 +122,43 @@
                             Console.WriteLine($"Все счета:");
                             Console.WriteLine($"{string.Join('\n', bills)}");
                             break;
-                        case 2: 
-                            Console.WriteLine("Когда нибудь тут будет реализация"); 
+                        case 2:
+                            Console.WriteLine("Когда нибудь тут будет реализация");
+                            var currentBills = DataBaseMock.Banks.SelectMany(b => b.GetBills(CurrentUser));
+                            Console.WriteLine($"Все счета:");
+                            Console.WriteLine($"{string.Join('\n', currentBills)}");
+                            Console.Write("Введите название банка: ");
+                            var currentBank = Console.ReadLine();
+
+                            if (!DataBaseMock.Banks.Any(b => b.Name == currentBank) || ((currentBills.FirstOrDefault(n => n.Bank.Name == currentBank)) is null))
+                            {
+                                Console.WriteLine("Банк не найден");
+                                break;
+                            }
+                            else
+                            {
+                                Console.Write("Введите сумму пополнения: ");
+                                if (decimal.TryParse(Console.ReadLine(), out decimal result))
+                                {
+                                    if (result < 0)
+                                    {
+                                        Console.WriteLine("Сумма пополнения должна быть больше нуля");
+                                        break;
+                                    }
+
+                                    DataBaseMock.Banks.FirstOrDefault(b => b.Name == currentBank).TransferMoney(CurrentUser, result);
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Сумма должна быть числом");
+                                }
+                            }
+
                             break;
                         case 3:
                             Console.WriteLine("Когда нибудь тут тоже будет реализация");
                             break;
-                            
+
                         case 4:
                             Console.WriteLine();
                             exit = false;
