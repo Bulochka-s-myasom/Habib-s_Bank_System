@@ -60,6 +60,7 @@
                     bool exit = true;
                     while (exit)
                     {
+                        Console.WriteLine();
                         Console.WriteLine("Выбери 1.Проверить счета 2.Операции со счётом 3.Сменить пользователя 4.Выход");
                         if (int.TryParse(Console.ReadLine(), out int imput))
                         {
@@ -97,6 +98,7 @@
             bool exit = true;
             while (exit)
             {
+                Console.WriteLine();
                 Console.WriteLine("Выбери 1.Проверить счета 2.Пополнить 3.Перевести 4.Назад");
                 if (int.TryParse(Console.ReadLine(), out int imput))
                 {
@@ -165,15 +167,14 @@
 
         private static bool PrintBillsOfCurrentUser(IEnumerable<Bill> bills)
         {
-            Console.WriteLine($"Все счета:");
-            Console.WriteLine($"{string.Join('\n', bills)}");
             if (bills.Count() == 0)
             {
-                Console.WriteLine("У пользователя нет счетов в банках");  
+                Console.WriteLine("У пользователя нет счетов в банках");
                 return false;
             }
+            Console.WriteLine($"Все счета:");
+            Console.WriteLine($"{string.Join('\n', bills)}");            
             return true;
-
         }
 
         private static IEnumerable<Bill> GetBillsOfCurrentUser()
