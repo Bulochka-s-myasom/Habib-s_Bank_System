@@ -2,7 +2,7 @@
 {
     internal static class BankSystem
     {
-        internal static DataBaseMock DataBaseMock { get; private set; }
+        internal static DataBaseMock? DataBaseMock { get; private set; }
         internal static User? CurrentUser { get; private set; }
         public static void Start()
         {
@@ -56,6 +56,7 @@
                 else
                 {
                     Console.WriteLine($"{CurrentUser.Name}, Добро пожаловать в банковскую систему Хабибуллы!");
+                    var bills = GetBillsOfCurrentUser();
                     bool exit = true;
                     while (exit)
                     {
@@ -65,11 +66,9 @@
                             switch (imput)
                             {
                                 case 1:
-                                    var bills = DataBaseMock.Banks.SelectMany(b => b.GetBills(CurrentUser));
-                                    Console.WriteLine($"Все счета:");
-                                    Console.WriteLine($"{string.Join('\n', bills)}");
+                                    PrintBillsOfCurrentUser(bills);
                                     break;
-                                case 2: BillOperation(); break;
+                                case 2: BillOperation(bills); break;
                                 case 3:
                                     Console.WriteLine("Всего хорошего");
                                     exit = false;
@@ -92,8 +91,9 @@
                 }
             }
         }
-        private static void BillOperation()
+        private static void BillOperation(IEnumerable<Bill> bills)
         {
+            
             bool exit = true;
             while (exit)
             {
@@ -102,26 +102,17 @@
                 {
                     switch (imput)
                     {
-                        case 1:
-                            {
-                                IEnumerable<Bill> bills = GetBillsOfCurrentUser();
-                                Console.WriteLine($"Все счета:");
-                                Console.WriteLine($"{string.Join('\n', bills)}");
-                            }
+                        case 1:                            
+                                PrintBillsOfCurrentUser(bills);                            
                             break;
                         case 2:
                             {
-                                var bills = GetBillsOfCurrentUser();
-                                Console.WriteLine($"Все счета:");
-                                Console.WriteLine($"{string.Join('\n', bills)}");
-                                if (bills.Count() == 0)
+                                if (!PrintBillsOfCurrentUser(bills))
                                 {
-                                    Console.WriteLine("У пользователя нет счетов в банках");
                                     break;
                                 }
                                 Console.Write("Введите название банка: ");
                                 var currentBank = Console.ReadLine();
-
                                 if (bills.FirstOrDefault(n => n.Bank.Name == currentBank) is null)
                                 {
                                     Console.WriteLine("Банк не найден");
@@ -139,7 +130,8 @@
                                         }
                                         else if (!HasValidDecimalImput(result, 2))
                                         {
-                                            Console.WriteLine("Сумма пополнения должнабыть в формате [рубли,копейки]");
+                                            Console.WriteLine("Сумма пополнения должна иметь не более 2х знаков");
+                                            Console.WriteLine("после запятой");
                                             break;
                                         }
 
@@ -169,6 +161,19 @@
                     Console.WriteLine("выбери из четырёх цифр");
                 }
             }
+        }
+
+        private static bool PrintBillsOfCurrentUser(IEnumerable<Bill> bills)
+        {
+            Console.WriteLine($"Все счета:");
+            Console.WriteLine($"{string.Join('\n', bills)}");
+            if (bills.Count() == 0)
+            {
+                Console.WriteLine("У пользователя нет счетов в банках");  
+                return false;
+            }
+            return true;
+
         }
 
         private static IEnumerable<Bill> GetBillsOfCurrentUser()
