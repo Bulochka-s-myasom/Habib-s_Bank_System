@@ -32,8 +32,14 @@ namespace Bank_of_Habib
 
         public void SetBill(decimal money)
         {
-            Value += money;
+            money = RoundMoney(money);
+            Value = RoundMoney(Value + money);
             Console.WriteLine($"Счёт пополнен: {Value}");
+        }
+
+        private decimal RoundMoney(decimal money)
+        {
+            return money;// Math.Round(money, 2, MidpointRounding.AwayFromZero);
         }
     }
 }

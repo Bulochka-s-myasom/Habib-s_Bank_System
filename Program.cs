@@ -42,6 +42,7 @@ namespace Bank_of_Khabib
             //Console.ReadLine();
 
             BankSystem.Start();
+            
         }
     }
 }

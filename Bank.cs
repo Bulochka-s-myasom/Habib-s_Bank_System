@@ -41,8 +41,8 @@ namespace Bank_of_Habib
 
         public void TransferMoney(User user, decimal money)
         {
-            var bill = _bills.Where(l => l.Login == user.Login).ToList();
-            bill[0].SetBill(money); 
+            var bill = _bills.First(l => l.Login == user.Login);
+            bill.SetBill(money); 
         }
     }
 }
