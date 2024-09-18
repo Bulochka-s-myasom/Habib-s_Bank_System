@@ -56,7 +56,7 @@
                 else
                 {
                     Console.WriteLine($"{CurrentUser.Name}, Добро пожаловать в банковскую систему Хабибуллы!");
-                    var bills = GetBillsOfCurrentUser();
+                    var bills = GetBillsOfUser(CurrentUser);
                     bool exit = true;
                     while (exit)
                     {
@@ -147,7 +147,59 @@
                             }
                             break;
                         case 3:
-                            Console.WriteLine("Когда нибудь тут тоже будет реализация");
+                            {
+                                if (!PrintBillsOfCurrentUser(bills))
+                                {
+                                    break;
+                                }
+                                Console.Write("Введите логин получателя: ");
+                                var targetUserLogin = Console.ReadLine();
+                                var targetUser = DataBaseMock.Users.First(u => u.Login == targetUserLogin);
+                                if (targetUser is null)
+                                {
+                                    Console.WriteLine("Получатель не найден");
+                                    break;
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Получатель найден");
+                                    Console.WriteLine();
+                                    var billsOfTargetUser = GetBillsOfUser(targetUser);
+                                    if (!PrintBillsOfCurrentUser(billsOfTargetUser))
+                                    {
+                                        break;
+                                    }
+                                    Console.WriteLine();
+                                    Console.Write("Введите название банка: ");
+                                    var targetBank = Console.ReadLine();
+                                    if (bills.First(n => n.Bank.Name == targetBank) is null)
+                                    {
+                                        Console.WriteLine("Банк не найден");
+                                        break;
+                                    }
+                                    Console.Write("Введите сумму перевода: ");
+                                    if (decimal.TryParse(Console.ReadLine(), out decimal result))
+                                    {
+                                        if (result < 0)
+                                        {
+                                            Console.WriteLine("Сумма перевода должна быть больше нуля");
+                                            break;
+                                        }
+                                        else if (!HasValidDecimalImput(result, 2))
+                                        {
+                                            Console.WriteLine("Сумма перевода должна иметь не более 2х знаков");
+                                            Console.WriteLine("после запятой");
+                                            break;
+                                        }
+
+                                        DataBaseMock.Banks.First(b => b.Name == currentBank).TransferMoney(CurrentUser, result);
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("Сумма должна быть числом");
+                                    }
+                                }
+                            }
                             break;
 
                         case 4:
@@ -177,11 +229,11 @@
             return true;
         }
 
-        private static IEnumerable<Bill> GetBillsOfCurrentUser()
+        private static IEnumerable<Bill> GetBillsOfUser(User user)
         {
-            if (CurrentUser == null)
+            if (user == null)
                 return Enumerable.Empty<Bill>();
-            return DataBaseMock.Banks.SelectMany(b => b.GetBills(CurrentUser));
+            return DataBaseMock.Banks.SelectMany(b => b.GetBills(user));
         }
 
         private static bool HasValidDecimalImput(decimal imput, int maxCountAfterDot)
