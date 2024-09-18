@@ -30,10 +30,20 @@ namespace Bank_of_Habib
             return $"Login: {Login}; ID: {Id}; Bank: {Bank.Name}; Value: {Value}";
         }
 
-        public void SetBill(decimal money)
+        public bool SetBill(decimal money)
         {
-            Value += money;
-            Console.WriteLine($"Счёт пополнен: {Value}");
+            if (Value + money < 0)
+            {
+                Console.WriteLine($"Недостаточно денег на счёте");  
+                return false;
+            }
+            else
+            {
+                Value += money;
+                Console.WriteLine($"Операция выполена: {Value}");  
+                return true;
+            }
+            
         }        
     }
 }

@@ -137,7 +137,7 @@
                                             break;
                                         }
 
-                                        DataBaseMock.Banks.First(b => b.Name == currentBank).TransferMoney(CurrentUser, result);
+                                        DataBaseMock.Banks.First(b => b.Name == currentBank).AccountRefill(CurrentUser, result);
                                     }
                                     else
                                     {
@@ -150,6 +150,13 @@
                             {
                                 if (!PrintBillsOfCurrentUser(bills))
                                 {
+                                    break;
+                                }
+                                Console.WriteLine("Введите название банка со чёта которого будет осуществён перевод: ");
+                                var sourceBank = Console.ReadLine();
+                                if (bills.First(n => n.Bank.Name == sourceBank) is null)
+                                {
+                                    Console.WriteLine("Банк не найден");
                                     break;
                                 }
                                 Console.Write("Введите логин получателя: ");
@@ -170,9 +177,10 @@
                                         break;
                                     }
                                     Console.WriteLine();
-                                    Console.Write("Введите название банка: ");
-                                    var targetBank = Console.ReadLine();
-                                    if (bills.First(n => n.Bank.Name == targetBank) is null)
+                                    Console.Write("Введите название банка получателя: ");
+                                    var targetBankName = Console.ReadLine();
+                                    var targetBank = DataBaseMock.Banks.First(b => b.Name == targetBankName);
+                                    if (billsOfTargetUser.First(n => n.Bank.Name == targetBankName) is null)
                                     {
                                         Console.WriteLine("Банк не найден");
                                         break;
@@ -192,7 +200,10 @@
                                             break;
                                         }
 
-                                        DataBaseMock.Banks.First(b => b.Name == currentBank).TransferMoney(CurrentUser, result);
+                                        if (DataBaseMock.Banks.First(b => b.Name == sourceBank).WithdrawMoneyFromAccount(CurrentUser, result, targetBank))
+                                        {
+                                            DataBaseMock.Banks.First(b => b.Name == targetBankName).AccountRefill(targetUser, result);
+                                        }                                        
                                     }
                                     else
                                     {
