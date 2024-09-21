@@ -1,4 +1,5 @@
 ﻿using Bank_of_Habib;
+using Newtonsoft.Json;
 
 namespace Bank_of_Khabib
 {
@@ -44,7 +45,16 @@ namespace Bank_of_Khabib
                 //}
                 //Console.ReadLine();
 
-                BankSystem.Start();
+                //BankSystem.Start();
+
+            DataBaseMock dataBaseMock = new DataBaseMock();
+            string serialazed = JsonConvert.SerializeObject(dataBaseMock, Formatting.Indented);
+            Console.WriteLine(serialazed);
+            Directory.CreateDirectory("F:\\TestJson");
+            //File.Create("F:\\TestJson\\dataBaseMock.json");
+            File.WriteAllText("F:\\TestJson\\dataBaseMock.json", serialazed);
+
+            
 
             }
         }
