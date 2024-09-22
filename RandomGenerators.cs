@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -90,5 +91,16 @@ namespace Bank_of_Habib
             return bills;
         } 
 
+        internal static void WriteToJson<T>(string fileName, T data)
+        {
+            string json = JsonConvert.SerializeObject(data, Formatting.Indented);
+            File.WriteAllText(fileName, json);  
+        }
+
+        internal static T ReadFromJson<T>(string filePath)
+        {
+            string json = File.ReadAllText(filePath);
+            return JsonConvert.DeserializeObject<T>(json);
+        }
     }
 }
