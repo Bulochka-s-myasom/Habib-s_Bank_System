@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,7 +12,26 @@ namespace Bank_of_Habib
         public int Id { get; private set; }
         public string Login { get; private set; }
         public decimal Value { get; private set; }
-        public Bank? Bank { get; private set; }
+        [JsonIgnore]
+        public Bank? Bank
+        {
+            get => _bank;
+            private set
+            {
+                if (value != null)
+                {
+                    BankId = value.Id;
+                }
+                else
+                {
+                    BankId = 0;
+                }
+                _bank = value;
+
+            }
+        }
+            private Bank? _bank;
+        public int BankId { get; private set; }
 
         public Bill(int id, string login, decimal value)
         {
@@ -34,16 +54,16 @@ namespace Bank_of_Habib
         {
             if (Value + money < 0)
             {
-                Console.WriteLine($"Недостаточно денег на счёте");  
+                Console.WriteLine($"Недостаточно денег на счёте");
                 return false;
             }
             else
             {
                 Value += money;
-                Console.WriteLine($"Операция выполена: {Value}");  
+                Console.WriteLine($"Операция выполена: {Value}");
                 return true;
             }
-            
-        }        
+
+        }
     }
 }

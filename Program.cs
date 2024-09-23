@@ -50,9 +50,9 @@ namespace Bank_of_Khabib
             DataBaseMock dataBaseMock = new DataBaseMock();
             string serialazed = JsonConvert.SerializeObject(dataBaseMock, Formatting.Indented);
             Console.WriteLine(serialazed);
-            Directory.CreateDirectory("F:\\TestJson");
+            //Directory.CreateDirectory("TestJson");
             //File.Create("F:\\TestJson\\dataBaseMock.json");
-            File.WriteAllText("F:\\TestJson\\dataBaseMock.json", serialazed);
+            File.WriteAllText("dataBaseMock.json", serialazed);
 
             
 

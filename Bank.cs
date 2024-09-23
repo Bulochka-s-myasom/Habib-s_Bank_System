@@ -1,10 +1,14 @@
-﻿namespace Bank_of_Habib
+﻿using Newtonsoft.Json;
+
+namespace Bank_of_Habib
+
 {
     internal class Bank
     {
         public string Name { get; }
         public int Id { get; }
         public int Commission { get; }
+        [JsonProperty]
         private List<Bill> _bills { get; }
 
         public Bank(string name, int id, int comiss, List<Bill> bills)

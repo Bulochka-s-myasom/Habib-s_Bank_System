@@ -8,8 +8,8 @@ namespace Bank_of_Habib
 {
     internal class DataBaseMock
     {
-        public List<Bank> Banks { get; } = new List<Bank>();
-        public List<User> Users { get; } = new List<User>();
+        public List<Bank> Banks { get; }
+        public List<User> Users { get; }
         
 
         public DataBaseMock()
