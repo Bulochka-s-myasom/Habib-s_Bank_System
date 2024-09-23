@@ -9,9 +9,9 @@ namespace Bank_of_Habib
 {
     internal class Bill
     {
-        public int Id { get; private set; }
-        public string Login { get; private set; }
-        public decimal Value { get; private set; }
+        public int Id { get; set; }
+        public string Login { get; set; }
+        public decimal Value { get; set; }
         //[JsonIgnore]
         //public Bank? Bank
         //{
@@ -31,7 +31,7 @@ namespace Bank_of_Habib
         //    }
         //}
         //    private Bank? _bank;
-        public int BankId { get; private set; }
+        public int BankId { get; set; }
 
         //public Bill(int id, string login, decimal value)
         //{
