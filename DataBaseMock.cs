@@ -14,12 +14,12 @@ namespace Bank_of_Habib
 
         public DataBaseMock()
         {
-            Random random = new Random();
+            //Random random = new Random();
 
-            var userCount = random.Next(5, 10);
-            Users = RandomGenerators.GenerateUsers(userCount);
-            var banksCount = random.Next(3, 7);
-            Banks = RandomGenerators.GenerateBanks(Users, banksCount);
+            //var userCount = random.Next(5, 10);
+            //Users = RandomGenerators.GenerateUsers(userCount);
+            //var banksCount = random.Next(5, 7);
+            //Banks = RandomGenerators.GenerateBanks(Users, banksCount);
         }
     }
 }

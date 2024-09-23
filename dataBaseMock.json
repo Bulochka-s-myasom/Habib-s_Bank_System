@@ -1,0 +1,215 @@
+{
+  "Banks": [
+    {
+      "Name": "Mighty Tiger",
+      "Id": 1,
+      "Commission": 0,
+      "_bills": [
+        {
+          "Id": 1,
+          "Login": "kirillobrubov",
+          "Value": 803.0,
+          "BankId": 1
+        },
+        {
+          "Id": 2,
+          "Login": "khabibulamankevich",
+          "Value": 481.0,
+          "BankId": 1
+        }
+      ]
+    },
+    {
+      "Name": "Mighty Eagle",
+      "Id": 2,
+      "Commission": 4,
+      "_bills": [
+        {
+          "Id": 1,
+          "Login": "kirillmankevich",
+          "Value": 631.0,
+          "BankId": 2
+        },
+        {
+          "Id": 2,
+          "Login": "dmitriynovikov",
+          "Value": 289.0,
+          "BankId": 2
+        },
+        {
+          "Id": 3,
+          "Login": "khabibulamankevich",
+          "Value": 614.0,
+          "BankId": 2
+        }
+      ]
+    },
+    {
+      "Name": "Silent Tiger",
+      "Id": 3,
+      "Commission": 1,
+      "_bills": [
+        {
+          "Id": 1,
+          "Login": "kirillmankevich",
+          "Value": 838.0,
+          "BankId": 3
+        },
+        {
+          "Id": 2,
+          "Login": "dmitriynovikov",
+          "Value": 927.0,
+          "BankId": 3
+        },
+        {
+          "Id": 3,
+          "Login": "kirillobrubov",
+          "Value": 720.0,
+          "BankId": 3
+        },
+        {
+          "Id": 4,
+          "Login": "mikhailtemuri",
+          "Value": 537.0,
+          "BankId": 3
+        },
+        {
+          "Id": 5,
+          "Login": "khabibulamankevich",
+          "Value": 233.0,
+          "BankId": 3
+        },
+        {
+          "Id": 6,
+          "Login": "sergeymankevich",
+          "Value": 315.0,
+          "BankId": 3
+        }
+      ]
+    },
+    {
+      "Name": "Brave Falcon",
+      "Id": 4,
+      "Commission": 4,
+      "_bills": [
+        {
+          "Id": 1,
+          "Login": "sergeymankevich",
+          "Value": 292.0,
+          "BankId": 4
+        },
+        {
+          "Id": 2,
+          "Login": "khabibulamankevich",
+          "Value": 794.0,
+          "BankId": 4
+        },
+        {
+          "Id": 3,
+          "Login": "dmitriynovikov",
+          "Value": 777.0,
+          "BankId": 4
+        }
+      ]
+    },
+    {
+      "Name": "Swift Eagle",
+      "Id": 5,
+      "Commission": 2,
+      "_bills": [
+        {
+          "Id": 1,
+          "Login": "mikhailtemuri",
+          "Value": 831.0,
+          "BankId": 5
+        },
+        {
+          "Id": 2,
+          "Login": "sergeymankevich",
+          "Value": 572.0,
+          "BankId": 5
+        },
+        {
+          "Id": 3,
+          "Login": "khabibulamankevich",
+          "Value": 762.0,
+          "BankId": 5
+        }
+      ]
+    },
+    {
+      "Name": "Swift Falcon",
+      "Id": 6,
+      "Commission": 0,
+      "_bills": [
+        {
+          "Id": 1,
+          "Login": "dmitriynovikov",
+          "Value": 895.0,
+          "BankId": 6
+        },
+        {
+          "Id": 2,
+          "Login": "kirillobrubov",
+          "Value": 504.0,
+          "BankId": 6
+        },
+        {
+          "Id": 3,
+          "Login": "sergeymankevich",
+          "Value": 371.0,
+          "BankId": 6
+        },
+        {
+          "Id": 4,
+          "Login": "mikhailtemuri",
+          "Value": 883.0,
+          "BankId": 6
+        },
+        {
+          "Id": 5,
+          "Login": "khabibulamankevich",
+          "Value": 993.0,
+          "BankId": 6
+        }
+      ]
+    }
+  ],
+  "Users": [
+    {
+      "Name": "Кирилл Манкевич",
+      "Login": "kirillmankevich",
+      "Password": "6925"
+    },
+    {
+      "Name": "Дмитрий Новиков",
+      "Login": "dmitriynovikov",
+      "Password": "5070"
+    },
+    {
+      "Name": "Сергей Манкевич",
+      "Login": "sergeymankevich",
+      "Password": "3613"
+    },
+    {
+      "Name": "Михаил Темури",
+      "Login": "mikhailtemuri",
+      "Password": "7279"
+    },
+    {
+      "Name": "Кирилл Обрубов",
+      "Login": "kirillobrubov",
+      "Password": "7550"
+    },
+    {
+      "Name": "Хабибула Манкевич",
+      "Login": "khabibulamankevich",
+      "Password": "4493"
+    },
+    {
+      "Name": "Владимир Новиков",
+      "Login": "vladimirnovikov",
+      "Password": "6624"
+    }
+  ]
+}
