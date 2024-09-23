@@ -5,24 +5,24 @@ namespace Bank_of_Habib
 {
     internal class Bank
     {
-        public string Name { get; }
-        public int Id { get; }
-        public int Commission { get; }
+        public string Name { get; set; }
+        public int Id { get; set; }
+        public int Commission { get; set; }
         [JsonProperty]
-        private List<Bill> _bills { get; }
+        private List<Bill> _bills { get; set; }
 
-        public Bank(string name, int id, int comiss, List<Bill> bills)
-        {
-            Name = name;
-            Id = id;
-            Commission = comiss;
-            _bills = bills;
+        //public Bank(string name, int id, int comiss, List<Bill> bills)
+        //{
+        //    Name = name;
+        //    Id = id;
+        //    Commission = comiss;
+        //    _bills = bills;
 
-            foreach (Bill bill in _bills)
-            {
-                bill.Register(this);
-            }
-        }
+        //    foreach (Bill bill in _bills)
+        //    {
+        //        bill.Register(this);
+        //    }
+        //}
 
         public IEnumerable<Bill> GetBills(User user)
         {

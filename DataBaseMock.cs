@@ -20,6 +20,17 @@ namespace Bank_of_Habib
             //Users = RandomGenerators.GenerateUsers(userCount);
             //var banksCount = random.Next(5, 7);
             //Banks = RandomGenerators.GenerateBanks(Users, banksCount);
+
+            var data = RandomGenerators.ReadFromJson<interlayer>("dataBaseMock.json");
+
+            Banks = data.Banks;
+            Users = data.Users;
+            
         }
+    }
+
+    internal class interlayer : DataBaseMock
+    {
+        
     }
 }
