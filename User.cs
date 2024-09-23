@@ -12,11 +12,11 @@ namespace Bank_of_Habib
         public string Login { get; set; }
         public string Password { get; set; }
 
-        public User(string name, string login, string pswd)
-        {
-            Name = name;
-            Login = login;
-            Password = pswd;
-        }
+        //public User(string name, string login, string pswd)
+        //{
+        //    Name = name;
+        //    Login = login;
+        //    Password = pswd;
+        //}
     }
 }

@@ -45,7 +45,18 @@ namespace Bank_of_Khabib
             //}
             //Console.ReadLine();
 
-            BankSystem.Start();
+            //BankSystem.Start();
+
+
+
+            string fileName = "dataBaseMock.json";
+            string jsonString = File.ReadAllText(fileName);
+
+            var db = JsonConvert.DeserializeObject<DataBase>(jsonString);
+            Console.WriteLine();
+
+
+
 
 
 
