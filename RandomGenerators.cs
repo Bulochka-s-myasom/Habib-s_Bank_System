@@ -33,7 +33,7 @@ namespace Bank_of_Habib
 
                 names.Add(name);
                 List<Bill> bills = GenerateBills(users);
-                //banks.Add(new Bank(name, i + 1, random.Next(0, 5), bills));
+                banks.Add(new Bank(name, i + 1, random.Next(0, 5), bills));
             }
             return banks;
         }
@@ -61,8 +61,8 @@ namespace Bank_of_Habib
                     name = $"{firstNames[indexFirst]} {secondNames[indexSecond]}";
                     login = Translit.Transliting(firstNames[indexFirst] + secondNames[indexSecond]).ToLower();
                 }
-                names.Add(name);                
-                //users.Add(new User(name,login, random.Next(1000, 9999).ToString()));
+                names.Add(name);
+                users.Add(new User(name, login, random.Next(1000, 9999).ToString()));
             }
             return users;                    
         }
@@ -89,19 +89,6 @@ namespace Bank_of_Habib
                 bills.Add(targetBill);                
             }
             return bills;
-        } 
-
-        internal static void WriteToJson<T>(string fileName, T data)
-        {
-            string json = JsonConvert.SerializeObject(data, Formatting.Indented);
-            File.WriteAllText(fileName, json);  
-        }
-
-        internal static T ReadFromJson<T>(string filePath)
-        {
-            string json = File.ReadAllText(filePath);
-            var result = JsonConvert.DeserializeObject<T>(json);
-            return result;
-        }
+        }        
     }
 }

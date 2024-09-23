@@ -11,18 +11,18 @@ namespace Bank_of_Habib
         [JsonProperty]
         private List<Bill> _bills { get; set; }
 
-        //public Bank(string name, int id, int comiss, List<Bill> bills)
-        //{
-        //    Name = name;
-        //    Id = id;
-        //    Commission = comiss;
-        //    _bills = bills;
+        public Bank(string name, int id, int comiss, List<Bill> bills)
+        {
+            Name = name;
+            Id = id;
+            Commission = comiss;
+            _bills = bills;
 
-        //    foreach (Bill bill in _bills)
-        //    {
-        //        bill.Register(this);
-        //    }
-        //}
+            foreach (Bill bill in _bills)
+            {
+                bill.Register(this);
+            }
+        }
 
         public IEnumerable<Bill> GetBills(User user)
         {

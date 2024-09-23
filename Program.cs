@@ -6,7 +6,7 @@ namespace Bank_of_Khabib
 
     
 
-        internal class Program
+    internal class Program
         {
             static void Main(string[] args)
             {
@@ -45,18 +45,10 @@ namespace Bank_of_Khabib
             //}
             //Console.ReadLine();
 
-            //BankSystem.Start();
+            BankSystem.Start();
 
-            DataBaseMock dataBaseMock = new DataBaseMock();
-            
-            string serialazed = JsonConvert.SerializeObject(dataBaseMock, Formatting.Indented);
-            Console.WriteLine(serialazed);
-            //Directory.CreateDirectory("TestJson");
-            //File.Create("F:\\TestJson\\dataBaseMock.json");
-            File.WriteAllText("dataBaseMock.json", serialazed);
 
-            
 
-            }
+        }
         }
     }

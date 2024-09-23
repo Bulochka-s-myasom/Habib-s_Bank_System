@@ -7,7 +7,7 @@
         public static void Start()
         {
 
-            DataBaseMock = RandomGenerators.ReadFromJson<DataBaseMock>("dataBaseMock.json");
+            DataBaseMock = new DataBaseMock();
 
             bool checkLogin = false;
 
