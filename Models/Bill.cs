@@ -11,26 +11,7 @@ namespace Bank_of_Habib
     {
         public int Id { get; set; }
         public string Login { get; set; }
-        public decimal Value { get; set; }
-        //[JsonIgnore]
-        //public Bank? Bank
-        //{
-        //    get => _bank;
-        //    private set
-        //    {
-        //        if (value != null)
-        //        {
-        //            BankId = value.Id;
-        //        }
-        //        else
-        //        {
-        //            BankId = 0;
-        //        }
-        //        _bank = value;
-
-        //    }
-        //}
-        //    private Bank? _bank;
+        public decimal Value { get; set; }        
         public int BankId { get; set; }
 
         //public Bill(int id, string login, decimal value)
@@ -65,5 +46,19 @@ namespace Bank_of_Habib
         //    }
 
         //}
+    }
+
+    internal class BillManager : Bill
+    {
+        public BillManager(Bill bill) 
+        {
+            base.Id = bill.Id;
+        }
+
+
+        public void SetValue(decimal n)
+        {
+            base.Value += n;
+        }
     }
 }
