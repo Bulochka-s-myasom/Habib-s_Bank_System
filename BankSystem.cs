@@ -1,97 +1,102 @@
-﻿//namespace Bank_of_Habib
-//{
-using Bank_of_Habib;
-
-internal static class BankSystem
+﻿namespace Bank_of_Habib
 {
-    internal static HelperDB? HelperDB { get; private set; }
-    internal static User? CurrentUser { get; private set; }
-    public static void Start()
+    internal static class BankSystem
     {
-        HelperDB db = new HelperDB();
-
-        bool checkLogin = false;
-
-        while (!checkLogin)
-        {
-            Console.WriteLine("Доступные пользователи:");
-            foreach (var us in db.DataBase.Users)
+        internal static HelperBD? HelperBD { get; private set; }
+        internal static User? CurrentUser { get; private set; }
+        public static void Start()
+        {   
+            bool logIn = true;
+            while (logIn)
             {
-                Console.WriteLine($"Логин: {us.Login} Пароль: {us.Password}");
+                logIn = LogIn();           
             }
+        }
 
-            Console.WriteLine();
+        public static bool LogIn()
+        {
+            HelperBD bd = new HelperBD();
+
+            bd.GetAllUsers();
+
             Console.Write("Введите логин или 1 для выхода: ");
             var login = Console.ReadLine();
             string? pass;
             if (login == "1")
-            {
-                checkLogin = true;
+            {                
                 Console.WriteLine("Всего хорошего");
-                break;
+                return false;
             }
             else
             {
                 Console.Write("Введите пароль: ");
                 pass = Console.ReadLine();
-            }
-            foreach (var us in db.DataBase.Users)
-            {
-                if (login == us.Login && us.Password == pass)
+                User user = bd.GetCurrentUser(login, pass);
+                if (user is not null)
                 {
                     Console.WriteLine();
                     Console.WriteLine("Пользователь найден");
+                    Console.WriteLine();                    
+                    CurrentUser = user;
+                    PerformActionsWithAccount();
+                    return true;
+                }
+                else
+                {
                     Console.WriteLine();
-                    checkLogin = true;
-                    CurrentUser = us;
-                    break;
+                    Console.WriteLine("Не верный логин или пароль");
+                    Console.WriteLine();
+                    return true;
                 }
             }
+        }
 
-            if (CurrentUser == null)
+        public static void PerformActionsWithAccount()
+        {
+            Console.WriteLine($"{CurrentUser.Name}, Добро пожаловать в банковскую систему Хабибуллы!");
+            var bills = GetBillsOfUser(CurrentUser);
+            bool exit = false;
+            while (!exit)
             {
                 Console.WriteLine();
-                Console.WriteLine("Не верный логин или пароль");
-                Console.WriteLine();
-            }
-            else
-            {
-                Console.WriteLine($"{CurrentUser.Name}, Добро пожаловать в банковскую систему Хабибуллы!");
-                var bills = GetBillsOfUser(CurrentUser);
-                bool exit = true;
-                //while (exit)
-                //{
-                //    Console.WriteLine();
-                //    Console.WriteLine("Выбери 1.Проверить счета 2.Операции со счётом 3.Сменить пользователя 4.Выход");
-                //    if (int.TryParse(Console.ReadLine(), out int imput))
-                //    {
-                //        switch (imput)
-                //        {
-                //            case 1:
-                //                PrintBillsOfCurrentUser(bills);
-                //                break;
-                //            case 2: BillOperation(bills); break;
-                //            case 3:
-                //                Console.WriteLine("Всего хорошего");
-                //                exit = false;
-                //                checkLogin = false;
-                //                CurrentUser = null;
-                //                break;
-                //            case 4:
-                //                Console.WriteLine("");
-                //                exit = false;
-                //                break;
-                //            default: Console.WriteLine("выбери из четырёх цифр"); break;
-                //        }
+                Console.WriteLine("Выбери 1.Проверить счета 2.Операции со счётом 3.Сменить пользователя");
+                if (int.TryParse(Console.ReadLine(), out int imput))
+                {
+                    switch (imput)
+                    {
+                        case 1:
+                            //PrintBillsOfCurrentUser(bills);
+                            Console.WriteLine("выбор 1");
+                            break;
+                        case 2:
+                            //BillOperation(bills); break;
+                            Console.WriteLine("выбор 2");
+                            break;
+                        case 3:
+                            Console.WriteLine("Всего хорошего");
+                            exit = true;                            
+                            CurrentUser = null;
+                            break;                        
+                        default: 
+                            Console.WriteLine("выбери из четырёх цифр"); 
+                            break;
+                    }
 
-                //    }
-                //    else
-                //    {
-                //        Console.WriteLine("выбери из четырёх цифр");
-                //    }
-                //}
+                }
+                else
+                {
+                    Console.WriteLine("выбери из четырёх цифр");
+                }
             }
+        }
 
+        private static IEnumerable<Bill> GetBillsOfUser(User user)
+        {
+            if (user == null)
+                return Enumerable.Empty<Bill>();
+            return new HelperBD().DataBase.Banks.SelectMany(b => new BankManager(b).GetBills(user));
+
+            //HelperBD.DataBase.Banks.SelectMany(b => b.GetBills(user));
         }
     }
 }
@@ -248,12 +253,7 @@ internal static class BankSystem
 //            return true;
 //        }
 
-private static IEnumerable<Bill> GetBillsOfUser(User user)
-{
-    if (user == null)
-        return Enumerable.Empty<Bill>();
-    return DataBaseMock.Banks.SelectMany(b => b.GetBills(user));
-}
+
 
 //        private static bool HasValidDecimalImput(decimal imput, int maxCountAfterDot)
 //        {
