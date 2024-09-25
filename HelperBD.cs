@@ -19,17 +19,24 @@ namespace Bank_of_Habib
                 _data = JsonConvert.DeserializeObject<DataBase>(jsonString);
                 return _data;
             }
-
             set 
             {
-                
+               
             } 
         }
+
+        public HelperBD() 
+        {
+            string fileName = "dataBaseMock.json";
+            string jsonString = File.ReadAllText(fileName);
+            _data = JsonConvert.DeserializeObject<DataBase>(jsonString);            
+        }
+
 
         public void GetAllUsers()
         {
             Console.WriteLine("Доступные пользователи:");
-            foreach (var us in DataBase.Users)
+            foreach (var us in _data.Users)
             {
                 Console.WriteLine($"Логин: {us.Login} Пароль: {us.Password}");
             }
@@ -38,7 +45,7 @@ namespace Bank_of_Habib
 
         public User GetCurrentUser(string login, string pass)
         {
-            foreach (var us in DataBase.Users)
+            foreach (var us in _data.Users)
             {
                 if (login == us.Login && us.Password == pass)
                 {                    

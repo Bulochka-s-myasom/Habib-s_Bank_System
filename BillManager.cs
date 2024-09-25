@@ -8,44 +8,34 @@ namespace Bank_of_Habib
 {
     internal class BillManager : Bill
     {
+        private Bill _bill;
         public BillManager(Bill bill)
         {
-            base.Id = bill.Id;
-            base.Login = bill.Login;
-            base.Value = bill.Value;
-            base.BankId = bill.BankId;
+            _bill = bill;
         }
 
         public override string ToString()
         {             
-            return $"Login: {Login}; ID: {Id}; Bank: {GetBankName()}; Value: {Value}";
+            return $"Login: {_bill.Login}; ID: {_bill.Id}; Bank: {GetBankName()}; Value: {_bill.Value}";
         }
 
         public string GetBankName()
         {
-            return new HelperBD().DataBase.Banks.FirstOrDefault(b => b.Id == BankId).Name;
-        }
-
-
-        public void SetValue(decimal n)
-        {
-            base.Value += n;
-        }
+            return new HelperBD().DataBase.Banks.FirstOrDefault(b => b.Id == _bill.BankId).Name;
+        }        
 
         public bool SetBill(decimal money)
         {
-            if (base.Value + money < 0)
+            if (_bill.Value + money < 0)
             {
                 Console.WriteLine($"Недостаточно денег на счёте");
                 return false;
             }
             else
             {
-                
-                base.Value += money;
-                HelperBD bd = new HelperBD();
-                bd.Save();
-                Console.WriteLine($"Операция выполена: {base.Value}");
+
+                _bill.Value += money;                
+                Console.WriteLine($"Операция выполена: {_bill.Value}");
                 return true;
             }
 

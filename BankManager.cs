@@ -8,17 +8,21 @@ namespace Bank_of_Habib
 {
     internal class BankManager : Bank
     {
+        private Bank _bank;
+
         public BankManager(Bank bank)
         {
-            base.Name = bank.Name;
-            base.Id = bank.Id;
-            base.Commission = bank.Commission;
-            base._bills = bank._bills;
+            _bank = bank;
+        }
+
+        public string GetName()
+        {
+            return _bank.Name;
         }
         public IEnumerable<Bill> GetBills(User user)
         {
             List<Bill> result = new List<Bill>();
-            foreach (var b in _bills)
+            foreach (var b in _bank._bills)
             {
                 if (b.Login == user.Login)
                     //yield return b;
@@ -30,8 +34,9 @@ namespace Bank_of_Habib
 
         public void AccountRefill(User user, decimal money)
         {
-            var bill = new BillManager(base._bills.First(l => l.Login == user.Login));
+            var bill = new BillManager(_bank._bills.First(l => l.Login == user.Login));
             bill.SetBill(money);
+            //bill.Value += money;
         }
 
         //public bool WithdrawMoneyFromAccount(User user, decimal money, Bank? targetBank = null)

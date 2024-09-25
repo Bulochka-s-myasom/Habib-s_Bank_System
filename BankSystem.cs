@@ -131,8 +131,8 @@
                                     break;
                                 }
                                 Console.Write("Введите название банка: ");
-                                var currentBank = Console.ReadLine();
-                                if (bills.FirstOrDefault(bill => new BillManager(bill).GetBankName() == currentBank) is null)
+                                var currentBankName = Console.ReadLine();
+                                if (bills.FirstOrDefault(bill => new BillManager(bill).GetBankName() == currentBankName) is null)
                                 {
                                     Console.WriteLine("Банк не найден");
                                     break;
@@ -153,8 +153,12 @@
                                             Console.WriteLine("после запятой");
                                             break;
                                         }
-
-                                        new BankManager(new HelperBD().DataBase.Banks.First(b => new BankManager(b).Name == currentBank)).AccountRefill(CurrentUser, result);
+                                        var bd = new HelperBD();
+                                        var b = bd.DataBase.Banks.First(b => b.Name == currentBankName);
+                                        var bm = new BankManager(b);
+                                        bm.AccountRefill(CurrentUser, result);
+                                        
+                                        bd.Save();
                                     }
                                     else
                                     {
