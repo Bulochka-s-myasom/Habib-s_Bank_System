@@ -46,13 +46,13 @@ namespace Bank_of_Habib
                 }
             }
             return null;
-        }
-
-        
+        }       
 
         public void Save()
         {
-
+            string fileName = "dataBaseMock.json";
+            string jsonString = JsonConvert.SerializeObject(_data, Formatting.Indented);
+            File.WriteAllText(fileName, jsonString);
         }
     }
 }
