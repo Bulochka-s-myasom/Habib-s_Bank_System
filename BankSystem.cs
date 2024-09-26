@@ -171,8 +171,9 @@
                                     break;
                                 }
                                 Console.WriteLine("Введите название банка со чёта которого будет осуществён перевод: ");
-                                var sourceBank = Console.ReadLine();
-                                if (bills.FirstOrDefault(bill => new BillManager(bill).GetBankName() == sourceBank) is null)
+                                var sourceBankName = Console.ReadLine();
+                                var sourceBank = HelperBD.DataBase.Banks.FirstOrDefault(b => b.Name == sourceBankName);
+                                if (bills.FirstOrDefault(bill => new BillManager(bill).GetBankName() == sourceBankName) is null)
                                 {
                                     Console.WriteLine("Банк не найден");
                                     break;
@@ -218,10 +219,11 @@
                                             break;
                                         }
 
-                                        //if (new BankManager(new HelperBD().DataBase.Banks.First(b => new BankManager(b).Name == sourceBank)).WithdrawMoneyFromAccount(CurrentUser, result, targetBank))
-                                        //{
-                                        //    new BankManager(new HelperBD().DataBase.Banks.First(b => new BankManager(b).Name == targetBankName)).AccountRefill(targetUser, result);
-                                        //}
+                                        if (new BankManager(HelperBD.DataBase.Banks.First(b => b.Name == sourceBankName)).WithdrawMoneyFromAccount(CurrentUser, result, targetBank))
+                                        {
+                                            new BankManager(HelperBD.DataBase.Banks.First(b => b.Name == targetBankName)).AccountRefill(targetUser, result);
+                                            HelperBD.Save();
+                                        }
                                     }
                                     else
                                     {
