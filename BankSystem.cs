@@ -2,10 +2,11 @@
 {
     internal static class BankSystem
     {
-        internal static HelperBD? HelperBD { get; private set; }
-        internal static User? CurrentUser { get; private set; }
+        //internal static HelperBD? HelperBD { get; set; }
+        internal static User? CurrentUser { get; set; }
         public static void Start()
         {   
+            HelperBD.Init();
             bool logIn = true;
             while (logIn)
             {
@@ -15,8 +16,7 @@
 
         public static bool LogIn()
         {
-            HelperBD bd = new HelperBD();  
-            bd.GetAllUsers();
+            HelperBD.GetAllUsers();
             Console.Write("Введите логин или 1 для выхода: ");
             var login = Console.ReadLine();
             string? pass;
@@ -29,7 +29,7 @@
             {
                 Console.Write("Введите пароль: ");
                 pass = Console.ReadLine();
-                User user = bd.GetCurrentUser(login, pass);
+                User user = HelperBD.GetCurrentUser(login, pass);
                 if (user is not null)
                 {
                     Console.WriteLine();
@@ -51,11 +51,11 @@
 
         public static void PerformActionsWithAccount()
         {
-            Console.WriteLine($"{CurrentUser.Name}, Добро пожаловать в банковскую систему Хабибуллы!");
-            var bills = GetBillsOfUser(CurrentUser);
+            Console.WriteLine($"{CurrentUser.Name}, Добро пожаловать в банковскую систему Хабибуллы!");            
             bool exit = false;
             while (!exit)
             {
+                var bills = GetBillsOfUser(CurrentUser);
                 Console.WriteLine();
                 Console.WriteLine("Выбери 1.Проверить счета 2.Операции со счётом 3.Сменить пользователя");
                 if (int.TryParse(Console.ReadLine(), out int imput))
@@ -89,7 +89,7 @@
         {
             if (user == null)
                 return Enumerable.Empty<Bill>();
-            return new HelperBD().DataBase.Banks.SelectMany(b => new BankManager(b).GetBills(user));
+            return HelperBD.DataBase.Banks.SelectMany(b => new BankManager(b).GetBills(user));
 
             //HelperBD.DataBase.Banks.SelectMany(b => b.GetBills(user));
         }
@@ -115,6 +115,7 @@
             bool exit = false;
             while (!exit)
             {
+                bills = GetBillsOfUser(CurrentUser);
                 Console.WriteLine();
                 Console.WriteLine("Выбери 1.Проверить счета 2.Пополнить 3.Перевести 4.Назад");
                 if (int.TryParse(Console.ReadLine(), out int imput))
@@ -153,12 +154,8 @@
                                             Console.WriteLine("после запятой");
                                             break;
                                         }
-                                        var bd = new HelperBD();
-                                        var b = bd.DataBase.Banks.First(b => b.Name == currentBankName);
-                                        var bm = new BankManager(b);
-                                        bm.AccountRefill(CurrentUser, result);
-                                        
-                                        bd.Save();
+                                        new BankManager(HelperBD.DataBase.Banks.First(b => b.Name == currentBankName)).AccountRefill(CurrentUser, result);
+                                        HelperBD.Save();
                                     }
                                     else
                                     {
@@ -182,7 +179,7 @@
                                 }
                                 Console.Write("Введите логин получателя: ");
                                 var targetUserLogin = Console.ReadLine();
-                                var targetUser = new HelperBD().DataBase.Users.FirstOrDefault(u => u.Login == targetUserLogin);
+                                var targetUser = HelperBD.DataBase.Users.FirstOrDefault(u => u.Login == targetUserLogin);
                                 if (targetUser is null)
                                 {
                                     Console.WriteLine("Получатель не найден");
@@ -200,7 +197,7 @@
                                     Console.WriteLine();
                                     Console.Write("Введите название банка получателя: ");
                                     var targetBankName = Console.ReadLine();
-                                    var targetBank = new HelperBD().DataBase.Banks.FirstOrDefault(b => b.Name == targetBankName);
+                                    var targetBank = HelperBD.DataBase.Banks.FirstOrDefault(b => b.Name == targetBankName);
                                     if (billsOfTargetUser.FirstOrDefault(bill => new BillManager(bill).GetBankName() == targetBankName) is null)
                                     {
                                         Console.WriteLine("Банк не найден");

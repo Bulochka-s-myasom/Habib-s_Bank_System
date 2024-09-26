@@ -1,39 +1,43 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Bank_of_Habib
 {
-    internal class HelperBD
+    internal static class HelperBD
     {
-        private DataBase _data;
-        public DataBase DataBase 
+        private static DataBase _data;          
+        public static DataBase DataBase
         {
-            get 
+            get
             {
-                string fileName = "dataBaseMock.json";
-                string jsonString = File.ReadAllText(fileName);
-                _data = JsonConvert.DeserializeObject<DataBase>(jsonString);
                 return _data;
             }
-            set 
+            set
             {
-               
-            } 
+                _data = value;                
+            }
         }
 
-        public HelperBD() 
+        public static void Init() 
+        {
+            LoadData();
+        }
+
+        private static void LoadData()
         {
             string fileName = "dataBaseMock.json";
             string jsonString = File.ReadAllText(fileName);
-            _data = JsonConvert.DeserializeObject<DataBase>(jsonString);            
+            _data = JsonConvert.DeserializeObject<DataBase>(jsonString);
         }
 
+        public static void Save()
+        {
+            string fileName = "dataBaseMock.json";
+            string jsonString = JsonConvert.SerializeObject(_data, Formatting.Indented);
+            File.WriteAllText(fileName, jsonString);
+            LoadData();
+        }
 
-        public void GetAllUsers()
+        public static void GetAllUsers()
         {
             Console.WriteLine("Доступные пользователи:");
             foreach (var us in _data.Users)
@@ -43,23 +47,18 @@ namespace Bank_of_Habib
             Console.WriteLine();
         }
 
-        public User GetCurrentUser(string login, string pass)
+        public static User GetCurrentUser(string login, string pass)
         {
             foreach (var us in _data.Users)
             {
                 if (login == us.Login && us.Password == pass)
-                {                    
+                {
                     return us;
                 }
             }
             return null;
-        }       
-
-        public void Save()
-        {
-            string fileName = "dataBaseMock.json";
-            string jsonString = JsonConvert.SerializeObject(_data, Formatting.Indented);
-            File.WriteAllText(fileName, jsonString);
         }
+
+        
     }
 }
