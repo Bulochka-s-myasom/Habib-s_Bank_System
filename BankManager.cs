@@ -1,6 +1,6 @@
 ﻿namespace Bank_of_Habib
 {
-    internal class BankManager : Bank
+    internal class BankManager
     {
         private Bank _bank;
 

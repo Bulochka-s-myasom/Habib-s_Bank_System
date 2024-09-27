@@ -1,15 +1,27 @@
 ﻿using Newtonsoft.Json;
+using System;
 
 namespace Bank_of_Habib
 {
-    internal static class HelperBD
+    internal class HelperBD
     {
-        private static DataBase _data;          
+        private static readonly object _syncRoot = new();
+        private static DataBase? _data;          
         public static DataBase DataBase
         {
             get
             {
-                return _data;
+                if (_data == null)
+                {
+                    lock (_syncRoot)
+                    {
+                        if (_data == null )
+                        {
+                            LoadData();
+                        }
+                    }
+                }
+                return _data!;
             }
             set
             {
@@ -17,10 +29,7 @@ namespace Bank_of_Habib
             }
         }
 
-        public static void Init() 
-        {
-            LoadData();
-        }
+      
 
         private static void LoadData()
         {
@@ -40,7 +49,7 @@ namespace Bank_of_Habib
         public static void GetAllUsers()
         {
             Console.WriteLine("Доступные пользователи:");
-            foreach (var us in _data.Users)
+            foreach (var us in DataBase.Users)
             {
                 Console.WriteLine($"Логин: {us.Login} Пароль: {us.Password}");
             }
@@ -49,7 +58,7 @@ namespace Bank_of_Habib
 
         public static User GetCurrentUser(string login, string pass)
         {
-            foreach (var us in _data.Users)
+            foreach (var us in DataBase.Users)
             {
                 if (login == us.Login && us.Password == pass)
                 {
@@ -57,6 +66,21 @@ namespace Bank_of_Habib
                 }
             }
             return null;
+        }
+
+        public static bool AddUser(string name, string login)
+        {
+            if (DataBase.Users.FirstOrDefault(l => l.Login == login) is null)
+            {
+                LoadData();
+                User newUser = new User();
+                newUser.Name = name;
+                newUser.Login = login;
+                newUser.Password = new Random().Next(1000, 9999).ToString();
+                _data!.Users.Add(newUser);
+                return true;
+            }
+            return false;
         }
 
         
