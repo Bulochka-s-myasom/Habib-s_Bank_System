@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Bank_of_Habib
 {
-    internal class BillManager : Bill
+    internal class BillManager
     {
         private Bill _bill;
         public BillManager(Bill bill)
@@ -33,14 +33,17 @@ namespace Bank_of_Habib
         {
             if (_bill.Value + money < 0)
             {
-                Console.WriteLine($"Недостаточно денег на счёте");
+                Console.WriteLine();
+                Console.WriteLine($"Недостаточно денег на счёте!");
                 return false;
             }
             else
             {
 
-                _bill.Value += money;                
-                Console.WriteLine($"Операция выполена: {_bill.Value}");
+                _bill.Value += money;
+                Console.WriteLine();
+                Console.WriteLine($"Операция выполена!");
+                Console.WriteLine($"Текущий остаток: {_bill.Value}");
                 return true;
             }
 

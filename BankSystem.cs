@@ -12,6 +12,7 @@ namespace Bank_of_Habib
             while (logIn)
             {
                 Console.WriteLine("Выберите действие: 1. Войти в аккаунт 2. Зарегистрироваться 3. Выход");
+                Console.Write("Ввод: ");
                 if (int.TryParse(Console.ReadLine(), out int imput))
                 {
                     switch (imput)
@@ -83,6 +84,7 @@ namespace Bank_of_Habib
                 var bills = GetBillsOfUser(CurrentUser!);
                 Console.WriteLine();
                 Console.WriteLine("Выбери 1.Проверить счета 2.Операции со счётом 3.Сменить пользователя");
+                Console.Write("Ввод: ");
                 if (int.TryParse(Console.ReadLine(), out int imput))
                 {
                     switch (imput)
@@ -93,7 +95,9 @@ namespace Bank_of_Habib
                         case 2:
                             BillOperation(bills); break;
                         case 3:
-                            Console.WriteLine("Всего хорошего");
+                            Console.WriteLine();
+                            Console.WriteLine($"{CurrentUser!.Name}, Всего хорошего!");
+                            Console.WriteLine();
                             exit = true;
                             CurrentUser = null;
                             break;
@@ -118,12 +122,13 @@ namespace Bank_of_Habib
 
         private static bool PrintBillsOfCurrentUser(IEnumerable<Bill> bills)
         {
+            Console.WriteLine();
             if (bills.Count() == 0)
             {
                 Console.WriteLine("У пользователя нет счетов в банках");
                 return false;
             }
-            Console.WriteLine($"Все счета:");
+            Console.WriteLine($"Ваши счета:");
             foreach (Bill bill in bills)
             {
                 Console.WriteLine($"{string.Join('\n', new BillManager(bill))}");
@@ -140,91 +145,24 @@ namespace Bank_of_Habib
                 bills = GetBillsOfUser(CurrentUser!);
                 Console.WriteLine();
                 Console.WriteLine("Выбери 1.Проверить счета 2.Снять 3.Пополнить 4.Перевести 5.Назад");
+                Console.Write("Ввод: ");
                 if (int.TryParse(Console.ReadLine(), out int imput))
                 {
                     switch (imput)
                     {
                         case 1:
-                            PrintBillsOfCurrentUser(bills);
+                            {
+                                PrintBillsOfCurrentUser(bills);
+                            }
                             break;
                         case 2:
                             {
-                                if (!PrintBillsOfCurrentUser(bills))
-                                {
-                                    break;
-                                }
-                                Console.WriteLine("Введите название банка со чёта которого снять средства: ");
-                                var sourceBankName = Console.ReadLine();
-                                var sourceBank = HelperBD.DataBase.Banks.FirstOrDefault(b => b.Name == sourceBankName);
-                                if (bills.FirstOrDefault(bill => new BillManager(bill).GetBankName() == sourceBankName) is null)
-                                {
-                                    Console.WriteLine("Банк не найден");
-                                    break;
-                                }                                
-                                    Console.Write("Введите сумму: ");
-                                    if (decimal.TryParse(Console.ReadLine(), out decimal result))
-                                    {
-                                        if (result < 0)
-                                        {
-                                            Console.WriteLine("Сумма быть больше нуля");
-                                            break;
-                                        }
-                                        else if (!HasValidDecimalImput(result, 2))
-                                        {
-                                            Console.WriteLine("Сумма должна иметь не более 2х знаков");
-                                            Console.WriteLine("после запятой");
-                                            break;
-                                        }
-
-                                        if (new BankManager(HelperBD.DataBase.Banks.First(b => b.Name == sourceBankName)).WithdrawMoneyFromAccount(CurrentUser!, result, null))
-                                        {                                            
-                                            HelperBD.Save();
-                                        }
-                                    }
-                                    else
-                                    {
-                                        Console.WriteLine("Сумма должна быть числом");
-                                    }
-                                }
-                            
+                                Withdraw(bills);
+                            }                            
                             break;
                         case 3:
                             {
-                                if (!PrintBillsOfCurrentUser(bills))
-                                {
-                                    break;
-                                }
-                                Console.Write("Введите название банка: ");
-                                var currentBankName = Console.ReadLine();
-                                if (bills.FirstOrDefault(bill => new BillManager(bill).GetBankName() == currentBankName) is null)
-                                {
-                                    Console.WriteLine("Банк не найден");
-                                    break;
-                                }
-                                else
-                                {
-                                    Console.Write("Введите сумму пополнения: ");
-                                    if (decimal.TryParse(Console.ReadLine(), out decimal result))
-                                    {
-                                        if (result < 0)
-                                        {
-                                            Console.WriteLine("Сумма пополнения должна быть больше нуля");
-                                            break;
-                                        }
-                                        else if (!HasValidDecimalImput(result, 2))
-                                        {
-                                            Console.WriteLine("Сумма пополнения должна иметь не более 2х знаков");
-                                            Console.WriteLine("после запятой");
-                                            break;
-                                        }
-                                        new BankManager(HelperBD.DataBase.Banks.First(b => b.Name == currentBankName)).AccountRefill(CurrentUser!, result);
-                                        HelperBD.Save();
-                                    }
-                                    else
-                                    {
-                                        Console.WriteLine("Сумма должна быть числом");
-                                    }
-                                }
+                                Deposit(bills);
                             }
                             break;
                         case 4:
@@ -324,15 +262,22 @@ namespace Bank_of_Habib
 
         private static void CreateUser()
         {
-            Console.Write("Введите ваше имя: ");
-            string[] firstName = Console.ReadLine().Split(" ").ToArray();
             Console.WriteLine();
+            Console.WriteLine("Добро пожаловать в банковскую систему Хаби - Рубова!");
+            Console.WriteLine();
+            Console.WriteLine("Процесс регитсрации займёт меньше минуты.");
+            Console.WriteLine("Внимание! При вводе данных необходимо использовать только русские символы!");
+            Console.WriteLine();
+            Console.Write("Введите ваше имя: ");
+            string[] firstName = Console.ReadLine().Split(" ").ToArray();            
             Console.Write("Введите вашу фамилию: ");
             string[] lastName = Console.ReadLine().Split(" ").ToArray();
 
             if (firstName.Length > 1 || lastName.Length > 1)
             {
+                Console.WriteLine();
                 Console.WriteLine("Необходимо вводить имя/фамилию без пробелов");
+                Console.WriteLine();
             }
             else
             {
@@ -340,19 +285,28 @@ namespace Bank_of_Habib
                 {
                     string name = $"{GetCorrectName(firstName)} {GetCorrectName(lastName)}";
                     string login = Translit.Transliting(firstName[0] + lastName[0]).ToLower();
-                    if (HelperBD.AddUser(name, login))
+                    string pass = new Random().Next(1000, 9999).ToString();
+                    if (HelperBD.AddUser(name, login, pass))
                     {
                         HelperBD.Save();
+                        Console.WriteLine();
                         Console.WriteLine($"Пользователь {name} зарегитстрирован.");
+                        Console.WriteLine($"Ваш логин: {login}");
+                        Console.WriteLine($"Ваш пароль: {pass}");
+                        Console.WriteLine();
                     }
                     else
                     {
+                        Console.WriteLine();
                         Console.WriteLine("Такой пользователь уже существует.");
+                        Console.WriteLine();
                     }                
                 }
                 else
                 {
-                    Console.WriteLine("Имя/фамилия должыть быть на русском языке");
+                    Console.WriteLine();
+                    Console.WriteLine("Имя/фамилию необходимо ввести используя только русские символы");
+                    Console.WriteLine();
                 }
             }
         }
@@ -367,6 +321,92 @@ namespace Bank_of_Habib
             string name = nameArr[0].ToLower();
             name = char.ToUpper(name[0]) + name.Substring(1);
             return name;
+        }
+
+        static void Withdraw(IEnumerable<Bill> bills)
+        {
+            if (PrintBillsOfCurrentUser(bills))
+            {
+                Console.WriteLine();
+                Console.WriteLine("Введите название банка, со счёта которого вы желаете снять средства");
+                Console.Write("Название банка: ");
+                var sourceBankName = Console.ReadLine();
+                var sourceBank = HelperBD.DataBase.Banks.FirstOrDefault(b => b.Name == sourceBankName);
+                if (bills.FirstOrDefault(bill => new BillManager(bill).GetBankName() == sourceBankName) is null)
+                {
+                    Console.WriteLine();
+                    Console.WriteLine("Банк не найден");
+                }
+                else
+                {
+                    Console.Write("Введите сумму: ");
+                    if (decimal.TryParse(Console.ReadLine(), out decimal result))
+                    {
+                        if (result < 0)
+                        {
+                            Console.WriteLine();
+                            Console.WriteLine("Сумма должна быть больше нуля!");                           
+                        }
+                        else if (!HasValidDecimalImput(result, 2))
+                        {
+                            Console.WriteLine();
+                            Console.WriteLine("Сумма должна иметь не более 2х знаков после запятой!");                            
+                        }
+                        else if (new BankManager(HelperBD.DataBase.Banks.First(b => b.Name == sourceBankName)).WithdrawMoneyFromAccount(CurrentUser!, result, null))
+                        {
+                            HelperBD.Save();
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine();
+                        Console.WriteLine("Сумма должна быть числом!");
+                    }
+                }
+            }            
+        }
+
+        static void Deposit(IEnumerable<Bill> bills)
+        {
+            if (!PrintBillsOfCurrentUser(bills))
+            {
+                break;
+            }
+            Console.WriteLine();
+            Console.Write("Введите название банка: ");
+            var currentBankName = Console.ReadLine();
+            if (bills.FirstOrDefault(bill => new BillManager(bill).GetBankName() == currentBankName) is null)
+            {
+                Console.WriteLine();
+                Console.WriteLine("Банк не найден");
+                break;
+            }
+            else
+            {
+                Console.Write("Введите сумму пополнения: ");
+                if (decimal.TryParse(Console.ReadLine(), out decimal result))
+                {
+                    if (result < 0)
+                    {
+                        Console.WriteLine();
+                        Console.WriteLine("Сумма пополнения должна быть больше нуля!");
+                        break;
+                    }
+                    else if (!HasValidDecimalImput(result, 2))
+                    {
+                        Console.WriteLine();
+                        Console.WriteLine("Сумма пополнения должна иметь не более 2х знаков");
+                        Console.WriteLine("после запятой");
+                        break;
+                    }
+                    new BankManager(HelperBD.DataBase.Banks.First(b => b.Name == currentBankName)).AccountRefill(CurrentUser!, result);
+                    HelperBD.Save();
+                }
+                else
+                {
+                    Console.WriteLine("Сумма должна быть числом");
+                }
+            }
         }
     }
 }

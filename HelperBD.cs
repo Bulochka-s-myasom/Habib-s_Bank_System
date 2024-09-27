@@ -48,6 +48,7 @@ namespace Bank_of_Habib
 
         public static void GetAllUsers()
         {
+            Console.WriteLine();
             Console.WriteLine("Доступные пользователи:");
             foreach (var us in DataBase.Users)
             {
@@ -68,7 +69,7 @@ namespace Bank_of_Habib
             return null;
         }
 
-        public static bool AddUser(string name, string login)
+        public static bool AddUser(string name, string login, string pass)
         {
             if (DataBase.Users.FirstOrDefault(l => l.Login == login) is null)
             {
@@ -76,7 +77,7 @@ namespace Bank_of_Habib
                 User newUser = new User();
                 newUser.Name = name;
                 newUser.Login = login;
-                newUser.Password = new Random().Next(1000, 9999).ToString();
+                newUser.Password = pass;
                 _data!.Users.Add(newUser);
                 return true;
             }
