@@ -11,7 +11,7 @@ namespace Bank_of_Habib
             bool logIn = true;
             while (logIn)
             {
-                Console.WriteLine("Выберите действие: 1. Войти в аккаунт 2. Зарегистрироваться");
+                Console.WriteLine("Выберите действие: 1. Войти в аккаунт 2. Зарегистрироваться 3. Выход");
                 if (int.TryParse(Console.ReadLine(), out int imput))
                 {
                     switch (imput)
@@ -21,6 +21,9 @@ namespace Bank_of_Habib
                             break;
                         case 2:                            
                             CreateUser();
+                            break;
+                        case 3:
+                            logIn = false;
                             break;
                         default:
                             Console.WriteLine("выбери из четырёх цифр");
@@ -304,8 +307,7 @@ namespace Bank_of_Habib
                     else
                     {
                         Console.WriteLine("Такой пользователь уже существует.");
-                    }
-                
+                    }                
                 }
                 else
                 {

@@ -47,15 +47,6 @@ namespace Bank_of_Khabib
 
             BankSystem.Start();
 
-
-
-            
-
-
-
-
-
-
-        }
+            }
         }
     }
