@@ -43,7 +43,7 @@
                 else
                 {
                     var commiss = new BillManager(bill).GetBankCommission();
-                    Console.WriteLine($"Коммисия за перевод составит {new BillManager(bill).GetBankCommission()}");
+                    Console.WriteLine($"Коммисия за перевод составит {new BillManager(bill).GetBankCommission()}%");
                     money -= Math.Abs(money) / 100 * commiss;
                     return CheckOnChangeBill(money, bill);
                 }
