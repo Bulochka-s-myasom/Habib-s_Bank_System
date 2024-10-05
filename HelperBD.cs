@@ -82,8 +82,19 @@ namespace Bank_of_Habib
                 return true;
             }
             return false;
+        }        
+
+        public static void GetAllBanks()
+        {
+            Console.WriteLine();
+            Console.WriteLine("Доступные банки:");
+            foreach (var bk in DataBase.Banks)
+            {
+                Console.WriteLine($"Банк {bk.Name}");
+            }
+            Console.WriteLine();
         }
 
-        
+
     }
 }

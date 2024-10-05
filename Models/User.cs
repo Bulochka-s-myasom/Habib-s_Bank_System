@@ -10,13 +10,6 @@ namespace Bank_of_Habib
     {
         public string Name { get; set; }
         public string Login { get; set; }
-        public string Password { get; set; }
-
-        //public User(string name, string login, string pswd)
-        //{
-        //    Name = name;
-        //    Login = login;
-        //    Password = pswd;
-        //}
+        public string Password { get; set; }        
     }
 }

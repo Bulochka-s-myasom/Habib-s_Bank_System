@@ -21,7 +21,7 @@ namespace Bank_of_Habib
 
         public string GetBankName()
         {
-            return HelperBD.DataBase.Banks.FirstOrDefault(b => b.Id == _bill.BankId)!.Name;
+            return HelperBD.DataBase.Banks.FirstOrDefault(b => b.Id == _bill.BankId)?.Name;
         }
 
         public decimal GetBankCommission()

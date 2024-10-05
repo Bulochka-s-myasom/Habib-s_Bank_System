@@ -1,4 +1,5 @@
 ﻿using System.Text.RegularExpressions;
+using System.Xml.Linq;
 
 namespace Bank_of_Habib
 {
@@ -144,15 +145,15 @@ namespace Bank_of_Habib
             {
                 bills = GetBillsOfUser(CurrentUser!);
                 Console.WriteLine();
-                Console.WriteLine("Выбери 1.Проверить счета 2.Снять 3.Пополнить 4.Перевести 5.Назад");
+                Console.WriteLine("Выбери 1.Открыть счёт в банке 2.Снять 3.Пополнить 4.Перевести 5.Назад");
                 Console.Write("Ввод: ");
                 if (int.TryParse(Console.ReadLine(), out int imput))
                 {
                     switch (imput)
                     {
                         case 1:
-                            {
-                                PrintBillsOfUser(bills, CurrentUser);
+                            {                                
+                                CreateBill(CurrentUser!, bills);
                             }
                             break;
                         case 2:
@@ -422,6 +423,37 @@ namespace Bank_of_Habib
                         }
                     }
                 }
+            }
+        }
+
+        static void CreateBill(User user, IEnumerable<Bill> bills)
+        {
+            HelperBD.GetAllBanks();            
+            Console.WriteLine("Введите название банка, в котором желаете открыть счёт");
+            Console.Write("Название банка: ");
+            var targetBankName = Console.ReadLine();
+            var targetBank = HelperBD.DataBase.Banks.FirstOrDefault(b => new BankManager(b).GetName() == targetBankName);
+            if (targetBank is null)
+            {
+                Console.WriteLine();
+                Console.WriteLine("Банк не найден.");
+            } 
+            else
+            {
+                if (new BankManager(targetBank).AddBill(user, targetBankName, bills))
+                {
+                    HelperBD.Save();
+                    Console.WriteLine();
+                    Console.WriteLine($"Счёт в банке {targetBankName} успешно открыт!");
+                    PrintBillsOfUser(bills, CurrentUser);
+                    Console.WriteLine();
+                }
+                else
+                {
+                    Console.WriteLine();
+                    Console.WriteLine("У вас уже есть счёт в данном банке.");
+                    Console.WriteLine();
+                }                
             }
         }
     }

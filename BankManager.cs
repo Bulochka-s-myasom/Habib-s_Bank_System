@@ -50,7 +50,6 @@
             }
         }
 
-
         private static bool CheckOnChangeBill(decimal money, Bill bill)
         {
             if (!new BillManager(bill).SetBill(money))
@@ -58,6 +57,21 @@
                 return false;
             }
             return true;
+        }
+
+        public bool AddBill(User user, string targetBankName, IEnumerable<Bill> bills)
+        {
+            if (bills.FirstOrDefault(bill => new BillManager(bill).GetBankName() == targetBankName) is null)
+            {
+                Bill bill = new Bill();
+                bill.Login = user.Login;
+                bill.Value = 0;
+                bill.BankId = _bank.Id;
+                bill.Id = _bank._bills.Count + 1;
+                _bank._bills.Add(bill);
+                return true;
+            }
+            return false;
         }
     }
 }
